@@ -10,4 +10,4 @@ const restoSchema = new mongoose.Schema({
 });
 
 const RestoNames = mongoose.models.RestoNames || mongoose.model("RestoNames",restoSchema)
-export default RestoNames
+export default RestoNames  

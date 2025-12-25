@@ -14,3 +14,15 @@ export async function POST(request) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }
+
+
+export async function GET(request){
+    try{
+        await connectionToDatabase();
+        const restodata=await RestoNames.find();
+        return NextResponse.json(restodata,{status:200})
+    } catch (error){
+        console.error(error);
+        return NextResponse.json({error: error.message},{status: 500});
+    }
+}
