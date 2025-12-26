@@ -46,9 +46,10 @@ export default function Home() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6">
+    <div className="font-bold text-center text-5xl text-indigo-500 hover:text-red-600">Dine Log</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
         {items.map((item) => (
-          <div key={item._id} className="bg-white shadow-md rounded-lg p-4">
+          <div key={item._id} className="bg-white shadow-md rounded-lg p-4 hover:bg-stone-100">
             <h3 className="text-lg font-semibold">{item.name}</h3>
             <p className="text-sm text-gray-600">{item.area}</p>
             <p className="mt-2 text-gray-700">{item.description}</p>
@@ -67,7 +68,7 @@ export default function Home() {
 
       <button
         onClick={() => setOpen(true)}
-        className="fixed top-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-indigo-500"
+        className="fixed bottom-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-indigo-500"
       >
         + Add Restaurant
       </button>
