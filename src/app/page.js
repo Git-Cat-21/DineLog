@@ -29,6 +29,7 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setOpen(false);
 
     const formData = new FormData();
     formData.append("file", imageFile);
@@ -179,6 +180,7 @@ export default function Home() {
                     type="file"
                     accept="image/*"
                     onChange={(e) => setImageFile(e.target.files[0])}
+                    required
                     className="mt-1 block w-full text-sm border rounded-md px-3 py-2 file:mr-3 file:border-0 file:bg-indigo-600 file:text-white file:px-3 file:py-1 file:rounded-md file:cursor-pointer hover:file:bg-indigo-500"
                   />
                 </div>
