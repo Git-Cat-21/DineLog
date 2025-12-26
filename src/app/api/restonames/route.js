@@ -5,8 +5,8 @@ import {NextResponse} from "next/server";
 export async function POST(request) {
     try {
         await connectionToDatabase();
-        const { name, location, area, description, avgcost } = await request.json();
-        const newResto = new RestoNames({ name, location, area, description, avgcost });
+        const { name, location, area, description, avgcost, imageUrl} = await request.json();
+        const newResto = new RestoNames({ name, location, area, description, avgcost,imageUrl });
         await newResto.save();
         return NextResponse.json(newResto, { status: 201 });
     } catch (error) {

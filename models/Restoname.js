@@ -6,7 +6,8 @@ const restoSchema = new mongoose.Schema({
     location: {type: String},
     area: {type: String},
     description: {type: String},
-    avgcost: {type: Number}
+    avgcost: {type: Number},
+    imageUrl: {type: String}
 });
 
 const RestoNames = mongoose.models.RestoNames || mongoose.model("RestoNames",restoSchema)

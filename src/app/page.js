@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -12,6 +13,7 @@ export default function Home() {
   const [avgcost, setAvgCost] = useState("");
 
   const [items, setItems] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     const fetchRestaurants = async () => {
@@ -28,6 +30,18 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("upload_preset", "restaurant_uploads");
+
+    const cloudinaryRes = await axios.post(
+      "https://api.cloudinary.com/v1_1/dwm6lfnmu/image/upload",
+      formData
+    );
+
+    const imageUrl = cloudinaryRes.data.secure_url;
+    console.log(imageUrl);
+
     try {
       await axios.post("/api/restonames", {
         name,
@@ -35,6 +49,7 @@ export default function Home() {
         area,
         description,
         avgcost,
+        imageUrl,
       });
 
       const response = await axios.get("/api/restonames");
@@ -46,14 +61,27 @@ export default function Home() {
 
   return (
     <>
-    <div className="font-bold text-center text-5xl text-indigo-500 hover:text-red-600">Dine Log</div>
+      <div className="font-bold text-center text-5xl text-indigo-500 hover:text-red-600 px-10 py-5">
+        Veg Finds
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-6">
         {items.map((item) => (
-          <div key={item._id} className="bg-white shadow-md rounded-lg p-4 hover:bg-stone-100">
-            <h3 className="text-lg font-semibold">{item.name}</h3>
+          <div
+            key={item._id}
+            className="bg-white shadow-md rounded-lg p-4 hover:bg-stone-100"
+          >
+            <div className="relative w-75 h-75 ">
+              <Image
+                src={item.imageUrl}
+                alt="restaurant image"
+                fill
+                className="rounded-lg"
+              />
+            </div>
+            <h3 className="text-lg font-semibold text-justify">{item.name}</h3>
             <p className="text-sm text-gray-600">{item.area}</p>
             <p className="mt-2 text-gray-700">{item.description}</p>
-            <p className="mt-2 font-medium">₹{item.avgcost}</p>
+            <p className="mt-2 font-medium">Avg Cost: ₹{item.avgcost}</p>
 
             <a
               href={item.location}
@@ -74,7 +102,7 @@ export default function Home() {
       </button>
 
       {open && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-40 overflow-y-auto">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 relative">
             <button
               onClick={() => setOpen(false)}
@@ -123,12 +151,12 @@ export default function Home() {
                   <label className="block text-sm font-medium">
                     Description
                   </label>
-                  <input
-                    type="textarea"
+                  <textarea
+                    rows="5"
                     onChange={(e) => setDescription(e.target.value)}
                     className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none"
                     required
-                  ></input>
+                  ></textarea>
                 </div>
 
                 <div>
@@ -141,6 +169,18 @@ export default function Home() {
                     className="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none"
                     required
                   ></input>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-1">
+                    Upload Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                    className="mt-1 block w-full text-sm border rounded-md px-3 py-2 file:mr-3 file:border-0 file:bg-indigo-600 file:text-white file:px-3 file:py-1 file:rounded-md file:cursor-pointer hover:file:bg-indigo-500"
+                  />
                 </div>
 
                 <button
