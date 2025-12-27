@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Concert_One } from "next/font/google";
 
 export default function Admin() {
   const [items, setItems] = useState([]);
@@ -32,6 +33,16 @@ export default function Admin() {
       setEditingItem(null);
       fetchRestaurants();
     } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) =>{
+
+    try{
+      await axios.delete(`/api/restonames/${id}`);
+      fetchRestaurants();
+    }catch(err){
       console.log(err);
     }
   };
@@ -77,7 +88,6 @@ export default function Admin() {
             >
               View Location
             </a>
-
             <div className="flex justify-end mt-4">
               <button
                 onClick={() => {
@@ -87,6 +97,17 @@ export default function Admin() {
                 className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
               >
                 Edit
+              </button>
+            </div>
+
+            <div className="flex justify-end mt-4">
+              <button
+              onClick={() =>
+                handleDelete(item._id)
+              }
+                className="py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
+              >
+                Delete
               </button>
             </div>
           </div>
