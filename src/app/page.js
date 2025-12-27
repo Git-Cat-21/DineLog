@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from 'next/link'
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -62,6 +63,9 @@ export default function Home() {
 
   return (
     <>
+
+    <Link href="/adminlogin"  className="fixed top-6 right-6 bg-indigo-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-indigo-500"> Admin Login</Link>
+
       <div className="font-bold text-center text-5xl text-indigo-500 hover:text-red-600 px-10 py-5">
         Veg Finds
       </div>

@@ -16,7 +16,7 @@ export async function POST(request) {
 }
 
 
-export async function GET(request){
+export async function GET(){
     try{
         await connectionToDatabase();
         const restodata=await RestoNames.find();
